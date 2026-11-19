@@ -237,8 +237,16 @@
       clear();
       input.blur();
     } else if (e.key === 'Enter' && input.value.trim()) {
-      var c = firstResult();
-      if (c && c.url) window.open(c.url, '_blank');
+      e.preventDefault();
+      var q = input.value.trim();
+      if (e.shiftKey) {
+        // Shift + Enter：打开页内匹配到的第一个本地书签
+        var c = firstResult();
+        if (c && c.url) window.open(c.url, '_blank');
+      } else {
+        // 直接 Enter：默认使用 Google 搜索
+        window.open('https://www.google.com/search?q=' + encodeURIComponent(q), '_blank', 'noopener');
+      }
     }
   });
   box.querySelector('.search-clear').addEventListener('click', function (e) {
